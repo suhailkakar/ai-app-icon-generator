@@ -1,5 +1,6 @@
 import React from "react";
 import { GeistMono } from "geist/font/mono";
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function Status({ images, apps }: { images: any; apps: any }) {
   if (images.length === 0) {
@@ -15,14 +16,18 @@ export default function Status({ images, apps }: { images: any; apps: any }) {
   });
 
   return (
-    <div className="absolute bottom-10 right-10 w-[400px] h-[220px] bg-gray-100 p-3 rounded-md">
-      {status.map((app: any) => (
-        <div key={app.name} className="flex flex-row items-center">
-          <p className={GeistMono.className + " text-sm text-gray-700"}>
-            generated app icon for "{app.name}"
-          </p>
+    <div className="fixed bottom-4 right-4 w-[300px] h-[220px] bg-gray-100 p-3 rounded-md">
+      <ScrollArea className="h-full">
+        <div className="flex flex-col">
+          {status.map((app: any) => (
+            <div key={app.name} className="flex flex-row items-center">
+              <p className={GeistMono.className + " text-sm text-gray-700"}>
+                generated for "{app.name}"
+              </p>
+            </div>
+          ))}
         </div>
-      ))}
+      </ScrollArea>
     </div>
   );
 }

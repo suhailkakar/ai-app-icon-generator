@@ -8,11 +8,12 @@ import { Label } from "@radix-ui/react-label";
 import { APPS, generate } from "@/utils/generate";
 import { Button } from "./ui/button";
 import Status from "./status";
+import { ScrollArea } from "./ui/scroll-area";
 
 export default function Hero() {
   const [theme, setTheme] = useState<string>();
   const [images, setImages] = useState<string[]>([]);
-
+  const [status, setStatus] = useState<string>("");
   const characters = ["batman", "barbie", "doge", "pepe", "spongebob", "yoda"];
 
   const generateImages = async () => {
@@ -21,8 +22,9 @@ export default function Hero() {
     }
 
     setImages([]); // Clear previous images
-
+    setStatus("Generating...");
     for (const app of APPS) {
+      setStatus(`Generating for ${app.name}...`);
       const images = await generate(app, theme);
 
       if (images.length > 0) {
@@ -31,15 +33,18 @@ export default function Hero() {
           app: app,
         };
 
+        // @ts-ignore
         setImages((prev) => [...prev, image]);
       } else {
         console.log("No images generated for", app, theme);
       }
     }
+
+    setStatus("All completed");
   };
 
   return (
-    <div className="-mt-[10rem]">
+    <div className="mt-[15rem]">
       <h1 className="font-heading text-pretty text-center mb-4 text-[22px] font-semibold tracking-tighter text-gray-900 sm:text-[30px] md:text-[46px]">
         Generate App Icons with AI
       </h1>
@@ -69,25 +74,28 @@ export default function Hero() {
       </div>
       <div className="mt-5">
         <Button onClick={generateImages} className="w-full">
-          Generate <ArrowTopRightIcon className="w-4 h-4 ml-2" />
+          {status ? status : "Generate"}{" "}
+          {!status && <ArrowTopRightIcon className="w-4 h-4 ml-2" />}
         </Button>
       </div>
-      <div className="grid grid-cols-6 gap-2 mt-5 max-w-[600px] mx-auto">
-        {images.map((image) => (
-          <div key={image.url} className="flex flex-col items-center">
-            <img
-              src={image.url}
-              alt={image.app.name}
-              width={1000}
-              height={1000}
-              className="rounded-xl w-full h-full"
-            />
-            <div className="mt-4">
-              <p>{image.app.name}</p>
+      <ScrollArea className=" max-w-[600px] mx-auto">
+        <div className="grid grid-cols-6 gap-4 mt-5 max-w-[600px] mx-auto">
+          {images.map((image) => (
+            <div key={image.url} className="flex flex-col items-center">
+              <img
+                src={image.url}
+                alt={image.app.name}
+                width={512}
+                height={512}
+                className="rounded-xl w-full h-full cover"
+              />
+              <div className="mt-2">
+                <p>{image.app.name}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </ScrollArea>
       <Status images={images} apps={APPS} />
     </div>
   );

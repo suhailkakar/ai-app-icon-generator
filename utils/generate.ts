@@ -144,8 +144,8 @@ const generate = async (app: (typeof APPS)[number], theme: string) => {
     prompt: prompt,
     model_id: "black-forest-labs/FLUX.1-schnell",
     negative_prompt: NEGATIVE_PROMPT,
-    width: 1024,
-    height: 1024,
+    width: 512,
+    height: 512,
     num_images_per_prompt: 2,
     num_inference_steps: 6,
     guidance_scale: 5,
@@ -169,7 +169,7 @@ const generate = async (app: (typeof APPS)[number], theme: string) => {
     return data.images;
   } catch (error) {
     console.error(`Error generating images for ${app.name}:`, error);
-    return []; // Return an empty array in case of an error
+    return [];
   }
 };
 
