@@ -9,10 +9,16 @@ import { APPS, generate } from "@/utils/generate";
 import { Button } from "./ui/button";
 import Status from "./status";
 import { ScrollArea } from "./ui/scroll-area";
+import Image from "next/image";
+
+type Image = {
+  url: string;
+  app: (typeof APPS)[number];
+};
 
 export default function Hero() {
   const [theme, setTheme] = useState<string>();
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [status, setStatus] = useState<string>("");
   const characters = ["batman", "barbie", "doge", "pepe", "spongebob", "yoda"];
 
@@ -82,7 +88,7 @@ export default function Hero() {
         <div className="grid grid-cols-6 gap-4 mt-5 max-w-[600px] mx-auto">
           {images.map((image) => (
             <div key={image.url} className="flex flex-col items-center">
-              <img
+              <Image
                 src={image.url}
                 alt={image.app.name}
                 width={512}

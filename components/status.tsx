@@ -22,7 +22,7 @@ export default function Status({ images, apps }: { images: any; apps: any }) {
           {status.map((app: any) => (
             <div key={app.name} className="flex flex-row items-center">
               <p className={GeistMono.className + " text-sm text-gray-700"}>
-                generated for "{app.name}"
+                generated for &quot;{app.name}&quot;
               </p>
             </div>
           ))}
